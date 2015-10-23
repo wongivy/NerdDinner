@@ -1,19 +1,7 @@
-﻿@model IEnumerable<NerdDinner.Models.Dinner>
-
+﻿
 @{
-    ViewBag.Title = "Upcoming Dinners";
+    ViewBag.Title = "Home";
 }
 
-<h2>Upcoming Dinners</h2>
+<h2>Home</h2>
 
-<p>
-    @Html.ActionLink("Create New Dinner", "Create")
-</p>
-
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>@Html.ActionLink(item.Title, "Details", "Home", new { id = item.DinnerId}, null) on @Html.DisplayFor(model => item.EventDate)
-        </li>
-    }
-</ul>

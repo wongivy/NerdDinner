@@ -1,0 +1,19 @@
+﻿@model NerdDinner.Models.Dinner
+
+@{
+    ViewBag.Title = "Delete Confirmation";
+}
+
+<h2>Delete Confirmation</h2>
+
+<h3>Please confirm you want to cancel the dinner title: <i>@Html.DisplayFor(model => model.Title)</i>.</h3>
+<div>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

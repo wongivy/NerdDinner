@@ -7,6 +7,7 @@ using System.Runtime.Remoting.Services;
 
 namespace NerdDinner.Models
 {
+    [PhoneValidator(ErrorMessage = "Phone# does not match country")]
     public class Dinner
     {
         public int DinnerId { get; set; }
