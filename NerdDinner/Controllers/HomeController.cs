@@ -13,5 +13,10 @@ namespace NerdDinner.Controllers
         {
             return View();
         }
+
+        public ActionResult About()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

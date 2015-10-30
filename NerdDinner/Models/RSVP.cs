@@ -11,9 +11,9 @@ namespace NerdDinner.Models
         public int RsvpId { get; set; }
         public int DinnerId { get; set; }
 
-        [Required(ErrorMessage = "Please enter your email.")]
         public string AttendeeEmail { get; set; }
 
         public virtual Dinner Dinner { get; set; }
+        public string AttendeeName { get; set; }
     }
 }

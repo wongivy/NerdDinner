@@ -1,0 +1,39 @@
+﻿@model NerdDinner.Models.Dinner
+
+@{
+    if (Request.IsAuthenticated)
+    {
+        if (Model.IsUserRegistered(Context.User.Identity.Name))
+        {
+            <p>You are registered for this event!</p>
+        }
+        else
+        {
+            <a id="RSVPForEvent" href="">RSVP for this Event</a>
+        }
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Account"); <span> to RSVP for this event.</span>
+    }
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        RSVPForEvent();
+    });
+
+    function RSVPForEvent() {
+        $("#RSVPForEvent").click(function () {
+            $.post("/RSVP/Register", {id: @Model.DinnerId}, function(result) {
+                $("#RSVPForEvent").html(result);
+            })
+            .fail(function() {
+                        
+            })
+            .always(function() {
+                $("#RSVPForEvent").animate({ fontSize: "1.5em" }, 400);
+            });
+        });
+    }
+</script>   

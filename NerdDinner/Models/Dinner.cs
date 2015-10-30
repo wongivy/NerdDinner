@@ -4,12 +4,15 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Remoting.Services;
+using System.Web.Mvc;
 
 namespace NerdDinner.Models
 {
     [PhoneValidator(ErrorMessage = "Phone# does not match country")]
-    public class Dinner
+    public partial class Dinner
     {
+        [HiddenInput(DisplayValue = false)]
+        [Key]
         public int DinnerId { get; set; }
 
         [Required(ErrorMessage = "Please enter a Dinner Title")]
@@ -21,15 +24,14 @@ namespace NerdDinner.Models
         [Display(Name = "Event Date")]
         public DateTime EventDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter your name")]
+        [Required]
         public string HostedBy { get; set; }
 
         [Required(ErrorMessage = "Please enter a description of the dinner")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Please enter your phone number")]
-        [Phone]
-        [Display(Name = "Contact Phone")]
+        [Display(Name = "Contact Phone #")]
         public string ContactPhone { get; set; }
 
         [Required(ErrorMessage = "Please enter the location of the Dinner")]
@@ -41,6 +43,16 @@ namespace NerdDinner.Models
         public float Latitude { get; set; }
 
         public float Longitude { get; set; }
+
+        public bool IsHostedBy(string username)
+        {
+            return HostedBy.Equals(username, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public bool IsUserRegistered(string userName)
+        {
+            return Rsvps.Any(r => r.AttendeeName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+        }
 
         public virtual ICollection<RSVP> Rsvps { get; set; }
     }

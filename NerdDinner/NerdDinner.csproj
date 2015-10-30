@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeFirstStoreFunctions, Version=0.1.0.0, Culture=neutral, PublicKeyToken=46c4868af4307d2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.CodeFirstStoreFunctions.1.0.0\lib\net45\CodeFirstStoreFunctions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
       <Private>True</Private>
@@ -179,9 +183,32 @@
     <Compile Include="Controllers\DinnersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RSVPController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510211831047_InitialCreate.cs" />
+    <Compile Include="Migrations\201510211831047_InitialCreate.Designer.cs">
+      <DependentUpon>201510211831047_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510261747199_InitialMigration.cs" />
+    <Compile Include="Migrations\201510261747199_InitialMigration.Designer.cs">
+      <DependentUpon>201510261747199_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510261824342_Migration2.cs" />
+    <Compile Include="Migrations\201510261824342_Migration2.Designer.cs">
+      <DependentUpon>201510261824342_Migration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510262001207_Migration21.cs" />
+    <Compile Include="Migrations\201510262001207_Migration21.Designer.cs">
+      <DependentUpon>201510262001207_Migration21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510301556287_Migration4.cs" />
+    <Compile Include="Migrations\201510301556287_Migration4.Designer.cs">
+      <DependentUpon>201510301556287_Migration4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dinner.cs" />
     <Compile Include="Models\DinnerFormViewModel.cs" />
@@ -189,6 +216,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NerdDinnersDataContext.cs" />
+    <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\PhoneValidator.cs" />
     <Compile Include="Models\RSVP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,6 +231,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Map.js" />
     <Content Include="Views\Dinners\NotFound.cshtml" />
     <Content Include="Views\Dinners\Create.cshtml" />
     <Content Include="Views\Dinners\Delete.cshtml" />
@@ -212,6 +241,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Dinners\Deleted.cshtml" />
     <Content Include="Views\Dinners\DinnerForm.cshtml" />
+    <Content Include="Views\Dinners\InvalidUser.cshtml" />
+    <Content Include="Views\Dinners\RSVPStatus.cshtml" />
+    <Content Include="Views\Dinners\EditAndDeleteLinks.cshtml" />
+    <Content Include="Views\Dinners\Map.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -278,6 +311,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RSVP\" />
+    <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -286,6 +321,23 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510211831047_InitialCreate.resx">
+      <DependentUpon>201510211831047_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510261747199_InitialMigration.resx">
+      <DependentUpon>201510261747199_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510261824342_Migration2.resx">
+      <DependentUpon>201510261824342_Migration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510262001207_Migration21.resx">
+      <DependentUpon>201510262001207_Migration21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510301556287_Migration4.resx">
+      <DependentUpon>201510301556287_Migration4.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -23,6 +23,15 @@ namespace NerdDinner.Models
                     select dinner;
         }
 
+        public IQueryable<Dinner> FindByLocation(float latitude, float longitude)
+        {
+            var dinners = from dinner in FindUpcomingDinners()
+                join i in db.NearestDinners(latitude, longitude) 
+                on dinner.DinnerId equals i.DinnerId
+                select dinner;
+            return dinners;
+        }
+
         public Dinner GetDinner(int? id)
         {
             return db.Dinners.SingleOrDefault(d => d.DinnerId == id);

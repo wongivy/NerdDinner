@@ -4,28 +4,34 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Model.Title</h2>
+<div id="dinnerDiv">
+    <h2>@Model.Title</h2>
+
+    <p>
+        <strong>When: </strong>
+        @Html.DisplayFor(model => model.EventDate)
+    </p>
+    <p>
+        <strong>Where: </strong>
+        @Html.DisplayFor(model => model.Address), @Html.DisplayFor(model => model.Country)
+    </p>
+    <p>
+        <strong>Description</strong>
+        @Html.DisplayFor(model => model.Description)
+    </p>
+    <p>
+        <strong>Organizer: </strong>
+        @Html.DisplayFor(model => model.HostedBy) (@Html.DisplayFor(model => model.ContactPhone))
+    </p>
+
+    @{Html.RenderPartial("RSVPStatus");}
+    @{Html.RenderPartial("EditAndDeleteLinks");}
+</div>
+
+<div id="mapDiv">
+    @{Html.RenderPartial("map");}
+</div>
 
 <p>
-    <strong>When: </strong>
-    @Html.DisplayFor(model => model.EventDate)
-</p>
-<p>
-    <strong>Where: </strong>
-    @Html.DisplayFor(model => model.Address), @Html.DisplayFor(model => model.Country)
-</p>
-<p>
-    <strong>Description</strong>
-    @Html.DisplayFor(model => model.Description)
-</p>
-<p>
-    <strong>Organizer: </strong>
-    @Html.DisplayFor(model => model.HostedBy) (@Html.DisplayFor(model => model.ContactPhone))
-</p>
-
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.DinnerId }) |
-    @Html.ActionLink("Delete Dinner", "Delete", new { id = Model.DinnerId })|
     @Html.ActionLink("Back to List", "Index")
 </p>
