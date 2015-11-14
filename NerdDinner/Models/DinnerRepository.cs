@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace NerdDinner.Models
 {
-    public class DinnerRepository
+    public class DinnerRepository : IDinnerRepository
     {
         private NerdDinnersDataContext db = new NerdDinnersDataContext();
 
@@ -32,7 +32,7 @@ namespace NerdDinner.Models
             return dinners;
         }
 
-        public Dinner GetDinner(int? id)
+        public Dinner GetDinner(int id)
         {
             return db.Dinners.SingleOrDefault(d => d.DinnerId == id);
         }
@@ -46,13 +46,6 @@ namespace NerdDinner.Models
         {
             db.Rsvps.RemoveRange(dinner.Rsvps);
             db.Dinners.Remove(dinner);
-        }
-
-        public void Update(Dinner dinner)
-        {
-            db.Dinners.Attach(dinner);
-            db.Entry(dinner).State = EntityState.Modified;
-            Save();
         }
 
         public void Save()

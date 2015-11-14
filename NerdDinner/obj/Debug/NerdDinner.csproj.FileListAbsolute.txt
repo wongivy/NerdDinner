@@ -95,3 +95,4 @@ C:\Users\IvyW\Documents\Visual Studio 2015\Projects\NerdDinner\NerdDinner\obj\De
 C:\Users\IvyW\Documents\Visual Studio 2015\Projects\NerdDinner\NerdDinner\obj\Debug\NerdDinner.dll
 C:\Users\IvyW\Documents\Visual Studio 2015\Projects\NerdDinner\NerdDinner\obj\Debug\NerdDinner.pdb
 C:\Users\IvyW\Documents\Visual Studio 2015\Projects\NerdDinner\NerdDinner\obj\Debug\NerdDinner.csprojResolveAssemblyReference.cache
+C:\Users\IvyW\Documents\Visual Studio 2015\Projects\NerdDinner\NerdDinner\obj\Debug\NerdDinner.Migrations.Migration5.resources

@@ -6,13 +6,24 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using NerdDinner.Helpers;
 using NerdDinner.Models;
 
 namespace NerdDinner.Controllers
 {
     public class DinnersController : Controller
     {
-        private DinnerRepository dinnerRepository = new DinnerRepository();
+        IDinnerRepository dinnerRepository;
+
+        public DinnersController()
+        {
+            this.dinnerRepository = new DinnerRepository();
+        }
+
+        public DinnersController(IDinnerRepository repository)
+        {
+            dinnerRepository = repository;
+        }
 
         // GET: Dinners
         public ActionResult Index(int? page)
@@ -25,12 +36,8 @@ namespace NerdDinner.Controllers
         }
 
         // GET: Dinners/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var dinner = dinnerRepository.GetDinner(id);
             if (dinner == null)
             {
@@ -52,18 +59,25 @@ namespace NerdDinner.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DinnerId,Title,EventDate,HostedBy,Description,ContactPhone,Address,Country,Latitude,Longitude")] Dinner dinner)
+        public ActionResult Create(Dinner dinner)
         {
             if (ModelState.IsValid)
             {
-                dinner.Rsvps = new List<RSVP>();
-                var rsvp = new RSVP {AttendeeName = User.Identity.Name};
-                dinner.Rsvps.Add(rsvp);
+                try
+                {
+                    dinner.Rsvps = new List<RSVP>();
+                    var rsvp = new RSVP {AttendeeName = User.Identity.Name};
+                    dinner.Rsvps.Add(rsvp);
 
-                dinnerRepository.AddDinner(dinner);
-                dinnerRepository.Save();
+                    dinnerRepository.AddDinner(dinner);
+                    dinnerRepository.Save();
 
-                return RedirectToAction("Details", new {id = dinner.DinnerId});
+                    return RedirectToAction("Details", new {id = dinner.DinnerId});
+                }
+                catch
+                {
+                    ModelState.AddRuleViolations(dinner.GetRuleViolations());
+                }
             }
 
             return View(new DinnerFormViewModel(dinner));
@@ -71,12 +85,8 @@ namespace NerdDinner.Controllers
 
         // GET: Dinners/Edit/5
         [Authorize]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var dinner = dinnerRepository.GetDinner(id);
             if (dinner == null)
             {
@@ -84,7 +94,7 @@ namespace NerdDinner.Controllers
             }
             if (!dinner.IsHostedBy(User.Identity.Name))
             {
-                return View("InvalidUser");
+                return View("InvalidOwner");
             }
             return View(new DinnerFormViewModel(dinner));
         }
@@ -95,27 +105,30 @@ namespace NerdDinner.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DinnerId,Title,EventDate,HostedBy,Description,ContactPhone,Address,Country,Latitude,Longitude")] Dinner dinner)
+        public ActionResult Edit(int id, FormCollection collection)
         {
+            Dinner dinner = dinnerRepository.GetDinner(id);
+
             if (!dinner.IsHostedBy(User.Identity.Name))
             {
-                return View("InvalidUser");
+                return View("InvalidOwner");
             }
-            if (ModelState.IsValid)
+            try
             {
-                dinnerRepository.Update(dinner);
-                return RedirectToAction("Details", new {id = dinner.DinnerId});
+                UpdateModel(dinner, "Dinner");
+                dinnerRepository.Save();
+                return RedirectToAction("Details", new { id = dinner.DinnerId });
             }
-            return View(new DinnerFormViewModel(dinner));
+            catch
+            {
+                ModelState.AddRuleViolations(dinner.GetRuleViolations());
+                return View(new DinnerFormViewModel(dinner));
+            }
         }
 
         // GET: Dinners/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var dinner = dinnerRepository.GetDinner(id);
             if (dinner == null)
             {
